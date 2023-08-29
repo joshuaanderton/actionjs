@@ -1,6 +1,6 @@
 {
-  "name": "joshuaanderton/actionjs",
-  "description": "Query language API and JS helper for Laravel",
+  "name": "actionjs/actionjs",
+  "description": "Run server-side Laravel actions using javascript client-side",
   "license": "MIT",
   "authors": [
       {
