@@ -1,6 +1,5 @@
 import { UserConfig, searchForWorkspaceRoot } from 'vite'
 import { cwd } from 'node:process'
-import { exec } from 'node:child_process'
 import path from 'path'
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
 
 export default (options: Props) => ({
 
-  name: '@actionjs/ql',
+  name: '@actionjs',
 
   config: (config: UserConfig, { mode, command }: { mode: string, command: string }) => {
 
@@ -20,15 +19,11 @@ export default (options: Props) => ({
     const basePath = searchForWorkspaceRoot(cwd()),
           packagePath = path.resolve(__dirname)
 
-    // Generate static config/schema files
-    // exec('php artisan actionjs:build-config')
-
-    // Alias actionjs utilities
     config.resolve = {
       alias: {
         ...(config.resolve?.alias || {}),
         '@tightenco/ziggy': `${basePath}/vendor/tightenco/ziggy/src/js`,
-        '@actionjs/ql': `${packagePath}/resources/js`,
+        '@actionjs': `${packagePath}/resources/js`,
         '@pckg': path.resolve('./node_modules'),
       }
     }

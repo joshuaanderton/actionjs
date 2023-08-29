@@ -13,6 +13,14 @@ class Actions
         return 'app/Actions/Actionjs';
     }
 
+    public static function path(string ...$path): string
+    {
+        return implode('/', [
+            Str::remove('src/Support', __DIR__),
+            ...$path,
+        ]);
+    }
+
     public static function namespace(): string
     {
         return (new Collection(explode('/', static::dir())))

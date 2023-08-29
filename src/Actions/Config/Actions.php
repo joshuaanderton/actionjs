@@ -54,7 +54,7 @@ class Actions extends Config
     private function getActionInvoker(string $class): array
     {
         $methods = (new ReflectionClass($class))->getMethods(ReflectionMethod::IS_PUBLIC);
-        $invoker = collect($methods)->filter(fn ($m) => in_array($m->getName(), ['__invoke', 'handle']))->first();
+        $invoker = collect($methods)->filter(fn ($m) => $m->getName() === '__invoke')->first();
 
         return [$invoker->getName() => [
             'returnType' => $this->getMethodReturnType($invoker),

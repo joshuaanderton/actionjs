@@ -1,13 +1,14 @@
 <?php
 
-namespace Actionjs\Actionjs\Providers;
+namespace Actionjs\Actionjs;
 
 use Actionjs\Actionjs\Console\Commands\BuildConfigCommand;
 use Actionjs\Actionjs\Support\ApiRoutes;
+use Actionjs\Actionjs\Support\Actions;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
 
-class ServiceProvider extends BaseServiceProvider
+class ActionjsServiceProvider extends BaseServiceProvider
 {
     public function register()
     {
@@ -66,9 +67,6 @@ class ServiceProvider extends BaseServiceProvider
 
     public static function path(string ...$path): string
     {
-        return implode('/', [
-            Str::remove('src/Providers', __DIR__),
-            ...$path,
-        ]);
+        return Actions::path(...$path);
     }
 }

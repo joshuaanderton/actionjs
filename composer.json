@@ -33,8 +33,10 @@
   "extra": {
       "laravel": {
           "providers": [
-              "Actionjs\\Actionjs\\Providers\\ServiceProvider"
+              "Actionjs\\Actionjs\\ActionjsServiceProvider"
           ]
       }
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

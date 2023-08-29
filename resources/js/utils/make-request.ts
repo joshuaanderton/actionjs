@@ -29,13 +29,20 @@ export const queueMakeRequest = async (request: ActionRequest) => {
 export const makeRequest = (request: ActionRequest): Promise<ActionResponse> => {
 
     const key = storeKey(request),
-          { url, config } = request,
-          instance = axios.create(),
-          options = getRequestOptions(config || {})
+          { url } = request
+
+    let { headers, ...options } = getRequestOptions(request)
+
+    const instance = axios.create({
+        baseURL: '/api/actionjs/',
+        timeout: 1000,
+        headers
+    })
 
     const axiosRequest = instance({
         url,
         ...options,
+        //paramsSerializer: () => Qs.stringify(params, {arrayFormat: 'brackets'}),
         //onUploadProgress: (progressEvent) => {},
         //onDownloadProgress: (progressEvent) => {},
     })
@@ -51,7 +58,7 @@ export const makeRequest = (request: ActionRequest): Promise<ActionResponse> => 
 const debounceQueueMakeRequest = debounce(() => (
 
     makeRequest({
-        url: '/api/actionjs/batch',
+        url: 'batch-requests',
         data: {
             queue: JSON.stringify(queue)
         },
@@ -85,15 +92,22 @@ const debounceQueueMakeRequest = debounce(() => (
 
 const getRequestOptions = ({ method = 'get', data, headers = {} }: ActionRequestConfig): AxiosRequestOptions => {
 
+    headers = {
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-XSRF-TOKEN': csrfToken(),
+        ...headers
+    }
+
+    if (method === 'get') {
+        // @ts-ignore
+        headers['Content-Type'] = 'application/json'
+    }
+
     let options: AxiosRequestOptions = {
         method,
-        headers: {
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-XSRF-TOKEN': csrfToken(),
-            ...headers
-        },
         withCredentials: true,
+        headers,
     }
 
     if (!data) return options
@@ -102,18 +116,13 @@ const getRequestOptions = ({ method = 'get', data, headers = {} }: ActionRequest
         options.params = data
     } else {
         options.data = data
-        headers['Content-Type'] = 'application/json'
     }
 
     return options
 }
 
 const csrfToken = () => {
-    if (typeof document === 'undefined') {
-        return
-    }
-
-    let xsrfToken
+    let xsrfToken: any
 
     xsrfToken = document.cookie.match('(^|; )XSRF-TOKEN=([^;]*)') || 0
     xsrfToken = xsrfToken[2]

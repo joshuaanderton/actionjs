@@ -84,9 +84,6 @@ class Routes extends Config
                     $class = $action;
                     $method = '__invoke';
 
-                    if (is_subclass_of($class, Action::class)) {
-                        $method = 'handle';
-                    }
                 }
 
                 $routes[$name]['parameters'] = $this->getRouteParams($class, $method);

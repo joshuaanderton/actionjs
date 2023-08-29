@@ -9,7 +9,7 @@ use Actionjs\Actionjs\Actions\Config\Models;
 use Actionjs\Actionjs\Actions\Config\Notifications;
 use Actionjs\Actionjs\Actions\Config\Routes;
 use Actionjs\Actionjs\Actions\Config\Translations;
-use Actionjs\Actionjs\Providers\ServiceProvider;
+use Actionjs\Actionjs\Support\Actions as ActionHelper;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -36,7 +36,7 @@ class BuildConfigCommand extends Command
      */
     public function __invoke()
     {
-        $directory = ServiceProvider::path('dist/config');
+        $directory = ActionHelper::path('dist/config');
 
         File::ensureDirectoryExists($directory);
 

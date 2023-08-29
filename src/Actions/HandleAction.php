@@ -30,7 +30,7 @@ class HandleAction
             compact('request')
         );
 
-        $reflect = new ReflectionMethod($actionClass, 'handle');
+        $reflect = new ReflectionMethod($actionClass, '__invoke');
 
         $paramTypes = (
             collect($reflect->getParameters())
