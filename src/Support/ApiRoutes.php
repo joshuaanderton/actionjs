@@ -15,9 +15,9 @@ class ApiRoutes
 
         Route::middleware('api')->group(fn () => (
             Route::prefix($endpoint)->group(function () {
-                Route::any('actions/{action}', Actions\HandleAction::class);
-                Route::any('batch-requests', Actions\HandleBatchRequests::class);
-                Route::any('batch-actions', Actions\HandleBatchActions::class);
+                Route::post('actions/{action}', Actions\HandleAction::class);
+                Route::post('batch-requests', Actions\HandleBatchRequests::class);
+                Route::post('batch-actions', Actions\HandleBatchActions::class);
             })
         ));
     }

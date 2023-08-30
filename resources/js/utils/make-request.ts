@@ -90,7 +90,7 @@ const debounceQueueMakeRequest = debounce(() => (
 
 ), debounceQueueMakeRequestWait)
 
-const getRequestOptions = ({ method = 'get', data, headers = {} }: ActionRequestConfig): AxiosRequestOptions => {
+const getRequestOptions = ({ method = 'post', data, headers = {} }: ActionRequestConfig): AxiosRequestOptions => {
 
     headers = {
         'Accept': 'application/json',
@@ -124,7 +124,7 @@ const getRequestOptions = ({ method = 'get', data, headers = {} }: ActionRequest
 const csrfToken = () => {
     let xsrfToken: any
 
-    xsrfToken = document.cookie.match('(^|; )XSRF-TOKEN=([^;]*)') || 0
+    xsrfToken = document.cookie.match('(^|; )XSRF-TOKEN=([^;]*)') || document.head.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content
     xsrfToken = xsrfToken[2]
     xsrfToken = decodeURIComponent(xsrfToken)
 

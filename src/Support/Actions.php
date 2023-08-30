@@ -10,7 +10,7 @@ class Actions
 {
     public static function dir(): string
     {
-        return 'app/Actions/Actionjs';
+        return 'app/Actionjs';
     }
 
     public static function path(string ...$path): string
@@ -65,16 +65,12 @@ class Actions
     public static function keyAction(string $actionKey): string
     {
         // Support actionjs package actions
-        if (Str::startsWith($actionKey, 'actionjs-')) {
-            $actionsNamespace = '';
-        } else {
-            $actionsNamespace = static::dir();
-            $actionsNamespace = explode('/', $actionsNamespace);
-            $actionsNamespace = collect($actionsNamespace)->map(fn ($an) => Str::ucfirst(Str::camel($an)))->join('\\');
-            $actionsNamespace = "\\{$actionsNamespace}";
-        }
+        $actionsNamespace = static::dir();
+        $actionsNamespace = explode('/', $actionsNamespace);
+        $actionsNamespace = collect($actionsNamespace)->map(fn ($an) => Str::ucfirst(Str::camel($an)))->join('\\');
+        $actionsNamespace = "\\{$actionsNamespace}";
 
-        $actionClass = explode('-', $actionKey);
+        $actionClass = explode('.', $actionKey);
         $actionClass = collect($actionClass)->map(fn ($ac) => Str::ucfirst(Str::camel($ac)))->join('\\');
         $actionClass = "{$actionsNamespace}\\{$actionClass}";
 
